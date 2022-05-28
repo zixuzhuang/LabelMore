@@ -63,3 +63,13 @@ python eval.py -m <model-path> -n 0
 
 ## Acknowledgments
 - Thank [Kai Xuan](https://github.com/woxuankai) for his efficient code bases.
+
+## Citation
+```
+@article{zhuang2022knee,
+  title={Knee Cartilage Defect Assessment by Graph Representation and Surface Convolution},
+  author={Zhuang, Zixu and Si, Liping and Wang, Sheng and Xuan, Kai and Ouyang, Xi and Zhan, Yiqiang and Xue, Zhong and Zhang, Lichi and Shen, Dinggang and Yao, Weiwu and Wang, Qian},
+  journal={arXiv preprint arXiv:2201.04318},
+  year={2022}
+}
+```
