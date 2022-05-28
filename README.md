@@ -6,7 +6,7 @@ You only need to label a small portion of the MRI dataset to segment the rest pa
 If the segmentation results are not satisfactory, just **Label** a little bit **More** on top of that.
 
 ## Performance
-Segmentations of MRNet after 2 iterations (labeled 10 subjects + refined 10 subjects):
+Segmentations of [MRNet](https://stanfordmlgroup.github.io/competitions/mrnet/) after 2 iterations (labeled 10 subjects + refined 10 subjects):
 ![Teaser image](figures/demo.png)
 
 ## Installation
