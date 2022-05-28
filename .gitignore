@@ -1,0 +1,9 @@
+*.pyc
+
+results/*
+data/cache/slices/*
+data/images/*
+data/predictions/*
+data/segmentations/*
+data/previews/*
+__pycache__
