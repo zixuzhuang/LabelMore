@@ -22,7 +22,12 @@ pip install -r requirements.txt
 ## Usage
 ### 0. Data preparation
 The original MRI files need to be put in `data/images` and the segmentation files in `data/segmentations`. The MRI and segmentation files of the same subject must have the same name.
-
+```bash
+mkdir data 
+cd data
+mkdir cache && mkdir images && mkdir predictions && mkdir previews && mkdir segmentations
+cd ..
+```
 At least 10 initial segmentations are recommended.
 
 ### 1. Convert the MRI file to .npz file
