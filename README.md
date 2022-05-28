@@ -21,7 +21,7 @@ pip install -r requirements.txt
 
 ## Usage
 ### 0. Data preparation
-You need to put the original MRI files in `data/images` and the segmentation files in `data/segmentations`. The MRI and segmentation files of the same subject must have the same name.
+The original MRI files need to be put in `data/images` and the segmentation files in `data/segmentations`. The MRI and segmentation files of the same subject must have the same name.
 
 At least 10 initial segmentations are recommended.
 
@@ -36,7 +36,7 @@ python train.py -c <config-file>
 ```
 The parameters of the training process can be referenced in `configs/mrnet.yaml`.
 
-You can find the corresponding experiment log and model file in the `results` folder after training.
+The corresponding experiment log and model file can be found in `results` after training.
 
 ### 3. Evaluate the segmentation result
 
@@ -46,7 +46,7 @@ python eval.py -m <model-path> -n <evaluate-number>
 
 This step will produce a pre-segmentation of the `n` unsegmented MRI files in `data/predictions`. 
 
-If you want to get the split result for all remaining files, set `n` to 0.
+To get the segmentation result for all remaining files, set `n` to 0.
 
 ### 4. Improve the segmentation performance by labeling more
 If you check the pre-segmentation results and are not satisfied with the performance, you just need to refine the pre-segmentation in `data/predictions` and save them in `data/segmentations`. Repeat step 1 to step 4 until the pre-segmentation results meet your needs.
