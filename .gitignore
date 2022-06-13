@@ -7,3 +7,4 @@ data/predictions/*
 data/segmentations/*
 data/previews/*
 __pycache__
+new*.py

@@ -4,6 +4,7 @@ import os
 import numpy as np
 import SimpleITK as sitk
 import torch
+from tqdm import tqdm
 
 from utils.utils_img import normalize, resize, show_nii, show_seg
 
@@ -12,12 +13,13 @@ seg_path = './data/segmentations'
 out_patch = "./data/cache/slices"
 
 try:
+    os.makedirs("./data/cache/slices")
     os.remove("./data/cache/slices/*")
 except:
     pass
 
 cases = os.listdir(seg_path)
-for case in cases:
+for case in tqdm(cases):
 
     org_data = sitk.ReadImage(f"{org_path}/{case}")
     org_data = sitk.DICOMOrient(org_data, "PIL")
