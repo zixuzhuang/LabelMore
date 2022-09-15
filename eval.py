@@ -5,7 +5,19 @@ import numpy as np
 import SimpleITK as sitk
 import torch
 
-from utils.utils_img import normalize, show_seg, show_slices
+from utils.utils_img import normalize, resize, show_seg, show_slices
+
+size = 512
+try:
+    os.makedirs("./data/previews")
+    os.remove("./data/previews/*")
+except:
+    pass
+try:
+    os.makedirs("./data/predictions")
+    os.remove("./data/predictions/*")
+except:
+    pass
 
 
 def save_label(mri_data, preds, save_path):
@@ -35,11 +47,12 @@ if __name__ == "__main__":
         org_data = sitk.ReadImage(f"./data/images/{case}")
         org_data = sitk.DICOMOrient(org_data, "PIL")
         org_img = sitk.GetArrayFromImage(org_data).astype(np.float32)
-        org_img = normalize(org_img)
+        org_img = resize(org_img, size, True)
+        org_img = normalize(org_img, 1.0, 0.0)
         image = torch.tensor(org_img, dtype=torch.float32).to(device)
         pred = net(image[:, None])
         pred = torch.argmax(pred, dim=1)
-        show_seg(org_img, pred.cpu().numpy(), save_path=f"./data/previews/{case}.png")
+        # show_seg(org_img, pred.cpu().numpy(), num_cls=8, save_path=f"./data/previews/{case}.png")
         save_label(org_data, pred, f"./data/predictions/{case}")
         print(case)
 

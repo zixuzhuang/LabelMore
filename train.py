@@ -12,7 +12,8 @@ from torch.optim.lr_scheduler import LambdaLR
 from tqdm import tqdm
 
 from net.config import Config
-from net.dataloader import dataloader
+from net.dataloader import Transform, dataloader
+from net.multi_losses import DiceLoss
 from net.result import ResultSeg, cal_dice
 from net.unet import UNet
 from utils.utils_aug import augment
@@ -31,10 +32,11 @@ def train(epoch):
     for data in tqdm(dataset["train"], unit="batches", leave=False, dynamic_ncols=True):
         data.to(cfg.device)
         images, labels = augment(data.images, data.labels)
+        images, labels = transfrom(images, labels)
         optimizer.zero_grad()
         with autocast(enabled=use_fp16):
             preds = net(images)
-            loss = loss_func(preds, labels)
+            loss = celoss(preds, labels) + dcloss(preds, labels) * 0.1
         if use_fp16:
             scaler.scale(loss).backward()
             scaler.step(optimizer)
@@ -74,7 +76,7 @@ if __name__ == "__main__":
     scaler = GradScaler()
     args = get_args(argparse.ArgumentParser())
     cfg = Config(args)
-
+    transfrom = Transform(cfg.device)
     if cfg.pretrain == "None":
         net = UNet(1, cfg.num_cls, (64, 128, 128, 128, 128, 128, 128, 128)).to(cfg.device)
     else:
@@ -82,7 +84,8 @@ if __name__ == "__main__":
     eval_models = {}
     train_models = {cfg.task: net}
     models = train_models | eval_models
-    loss_func = nn.CrossEntropyLoss().to(cfg.device)
+    celoss = nn.CrossEntropyLoss().to(cfg.device)
+    dcloss = DiceLoss().to(cfg.device)
     optimizer = optim.Adam([{"params": items.parameters()} for keys, items in train_models.items()], lr=cfg.lr)
     scheduler = LambdaLR(optimizer, lr_lambda=lr_func)
     dataset = dataloader(cfg)
@@ -91,4 +94,4 @@ if __name__ == "__main__":
     for epoch in range(cfg.num_epoch):
         train(epoch + 1)
         eval("valid")
-        results['valid'].save(models)
+        results["valid"].save(models)

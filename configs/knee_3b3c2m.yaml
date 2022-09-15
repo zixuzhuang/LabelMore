@@ -9,8 +9,8 @@ device : 1
 use_fp16 : True
 
 # Task Settings
-task : MRNET_KNEE_3B
-num_cls : 4
+task : KNEE_3B3C2M
+num_cls : 8
 pretrain : None
 
 # Test Mode
