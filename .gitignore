@@ -9,3 +9,4 @@ data/previews/*
 __pycache__
 new*.py
 mvdata.py
+export_data.py

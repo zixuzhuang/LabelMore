@@ -23,14 +23,14 @@ def normalize(image, img_max=0.995, img_min=0.005):
     return image
 
 
-def resize(image, size: int, bl_mode=True):
+def resize(image, size, bl_mode=True):
     assert type(image) is th.Tensor or np.ndarray
     if type(image) is np.ndarray:
         image = torch.tensor(image, requires_grad=False)
     if bl_mode:
-        image = Resize([size, size], interpolation=InterpolationMode.BILINEAR)(image)
+        image = Resize(size, interpolation=InterpolationMode.BILINEAR)(image)
     else:
-        image = Resize([size, size], interpolation=InterpolationMode.NEAREST)(image)
+        image = Resize(size, interpolation=InterpolationMode.NEAREST)(image)
     return image
 
 
